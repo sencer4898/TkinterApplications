@@ -159,21 +159,21 @@ class ContactBook():
     def destroyInsertMenu(self):
         self.add_menu_title.place_forget()
         
-        self.name_label.place_forget()
-        self.name_entry.place_forget()
+        self.name_label.destroy()
+        self.name_entry.destroy()
         
-        self.adress_label.place_forget()
-        self.adress_entry.place_forget()
+        self.adress_label.destroy()
+        self.adress_entry.destroy()
         
-        self.phone_label.place_forget()
-        self.phone_entry.place_forget()
+        self.phone_label.destroy()
+        self.phone_entry.destroy()
         
-        self.email_label.place_forget()
-        self.email_entry.place_forget()
+        self.email_label.destroy()
+        self.email_entry.destroy()
         
-        self.add_button.place_forget()
-        self.main_menu_button.place_forget()
-        self.exit_button.place_forget()
+        self.add_button.destroy()
+        self.main_menu_button.destroy()
+        self.exit_button.destroy()
         
     def add(self):
         self.name = self.name_entry.get()
@@ -345,8 +345,8 @@ class ContactBook():
             if len(self.found_contact)==0:
                 messagebox.showerror('Contact Book','Invalid ID!')
             else:
-                print(self.found_contact)
                 string="Deleted: "+self.found_contact[0][0]+"  "+self.found_contact[0][1]+"  "+self.found_contact[0][2]+"  "+self.found_contact[0][3]
+                self.deleted_contacts_label.destroy()
                 self.deleted_contacts_label=tk.Label(self.parent,text=string)
                 self.deleted_contacts_label.configure(bg='white',font='Helvetica 18')
                 self.deleted_contacts_label.place(x=130,y=380)
@@ -362,9 +362,158 @@ class ContactBook():
         self.destroyMainMenu()
         
         self.menu_number=4
+        self.id=-1
+        
+        
+        self.update_menu_title = tk.Label(self.parent,text="Add a Contact".upper())
+        self.update_menu_title.configure(font='Helvetica 24 bold', bg="white")
+        self.update_menu_title.place(x=220,y=50)
+
+        # Id
+        
+        self.id_label = tk.Label(self.parent,text="      ID : ")
+        self.id_label.configure(font='Helvetica 18', bg="white")
+        self.id_label.place(x= 130, y= 150)
+
+        self.id_entry = tk.Entry(self.parent)
+        self.id_entry.configure(font='Helvetica 18', bg="white")
+        self.id_entry.place(x=230,y=150)
+
+        # Name
+
+        self.name_label = tk.Label(self.parent,text="Name : ")
+        self.name_label.configure(font='Helvetica 18', bg="white")
+        self.name_label.place(x= 130, y=250)
+
+        self.name_entry = tk.Entry(self.parent)
+        self.name_entry.configure(font='Helvetica 18', bg="white")
+        self.name_entry.place(x=230, y=250)
+
+        # Adress
+
+        self.adress_label = tk.Label(self.parent,text="Adress : ")
+        self.adress_label.configure(font='Helvetica 18', bg="white")
+        self.adress_label.place(x= 130, y= 300)
+
+        self.adress_entry = tk.Entry(self.parent)
+        self.adress_entry.configure(font='Helvetica 18', bg="white")
+        self.adress_entry.place(x=230,y= 300)
+
+        # Phone
+
+        self.phone_label = tk.Label(self.parent,text="Phone : ")
+        self.phone_label.configure(font='Helvetica 18', bg="white")
+        self.phone_label.place(x= 130, y= 350)
+
+        self.phone_entry = tk.Entry(self.parent)
+        self.phone_entry.configure(font='Helvetica 18', bg="white")
+        self.phone_entry.place(x=230, y = 350)
+
+        # Email
+
+        self.email_label = tk.Label(self.parent,text="Email : ")
+        self.email_label.configure(font='Helvetica 18', bg="white")
+        self.email_label.place(x= 130, y = 400)
+
+        self.email_entry = tk.Entry(self.parent)
+        self.email_entry.configure(font='Helvetica 18', bg="white")
+        self.email_entry.place(x=230,y = 400)
+        
+        # Buttons
+        
+        self.open_contact_button = tk.Button(self.parent,
+                                    text='Open the Contact',command=self.open_contact)
+        self.open_contact_button.configure(font='Helvetica 18', bg='white', bd=2, relief='solid',width = 18)
+        self.open_contact_button.place(x=230,y=190)
+        
+        self.update_button = tk.Button(self.parent,
+                                    text='Update the Contact',command=self.update)
+        self.update_button.configure(font='Helvetica 18', bg='white', bd=2, relief='solid',width = 18)
+        self.update_button.place(x=230,y=450)
+        
+        self.main_menu_button = tk.Button(self.parent, text='Main Menu',command =self.add_main_menu)
+        self.main_menu_button.configure(
+            font='Helvetica 18', bg='white', bd=2, relief='solid',width = 18)
+        self.main_menu_button.place(x=230,y=520)
+        
+        self.exit_button = tk.Button(self.parent,text="Exit".upper(), command=self.parent.quit)
+        self.exit_button.configure(font='Helvetica 12',bd=2, bg="white",relief="solid")
+        self.exit_button.place(x=330,y=590)
+        
+        
 
     def destroyUpdateMenu(self):
-        return
+        self.update_menu_title.destroy()
+        
+        self.id_label.destroy()
+        self.id_entry.destroy()
+        
+        self.name_label.destroy()
+        self.name_entry.destroy()
+        
+        self.adress_label.destroy()
+        self.adress_entry.destroy()
+        
+        self.phone_label.destroy()
+        self.phone_entry.destroy()
+        
+        self.email_label.destroy()
+        self.email_entry.destroy()
+        
+        self.open_contact_button.destroy()
+        self.update_button.destroy()
+        self.main_menu_button.destroy()
+        self.exit_button.destroy()
+        
+    
+    def open_contact(self):
+        self.id = self.id_entry.get()
+        
+        self.name_entry.delete(0,'end')
+        self.adress_entry.delete(0,'end')
+        self.phone_entry.delete(0,'end')
+        self.email_entry.delete(0,'end')
+        
+        
+        con = sqlite3.connect('contact_book.db')
+        cursor=con.cursor()
+        
+        cursor.execute('SELECT * FROM contacts WHERE oid=?',(self.id,))
+        self.found_people=cursor.fetchall()
+        
+        if len(self.found_people)==0:
+            messagebox.showinfo('Contact Book','Invalid ID!')
+        else:
+            for person in self.found_people:
+                self.name_entry.insert(0,person[0])
+                self.adress_entry.insert(0,person[1])
+                self.phone_entry.insert(0,person[2])
+                self.email_entry.insert(0,person[3])
+            
+        con.close()
+    
+    def update(self):
+        
+        self.name=self.name_entry.get()
+        self.adress=self.adress_entry.get()
+        self.phone=self.phone_entry.get()
+        self.email=self.email_entry.get()
+        
+        con = sqlite3.connect('contact_book.db')
+        cursor=con.cursor()
+        
+        cursor.execute('SELECT * FROM contacts WHERE oid=?',(self.id,))
+        self.found_contact = cursor.fetchall()
+        if len(self.found_contact)>0:
+            cursor.execute('UPDATE contacts SET name=?, adress=?, phone=?, email=? WHERE oid=?',(self.name,self.adress,
+                                                                                             self.phone,self.email,
+                                                                                             self.id))
+            messagebox.showinfo('Contact Book', 'Contact Updated Successfully!')
+        else:
+            messagebox.showerror('Contact Book','Invalid ID!')
+            
+        con.commit()
+        con.close()
     
     def listMenu(self):
         self.destroyMainMenu()
@@ -395,7 +544,7 @@ class ContactBook():
         con = sqlite3.connect('contact_book.db')
         cursor=con.cursor()
         
-        cursor.execute('SELECT oid,* FROM contacts')
+        cursor.execute('SELECT oid,* FROM contacts ORDER BY name DESC')
         self.found_people=cursor.fetchall()
         
         if len(self.found_people)==0:
