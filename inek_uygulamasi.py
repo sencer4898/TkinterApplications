@@ -51,7 +51,7 @@ class ContactBook():
             now = datetime.datetime.now().timestamp()      
             
             kuru_zamani_date1 = datetime.datetime.strptime('01.01.2001',"%d.%m.%Y")
-            kuru_zamani_date2 = datetime.datetime.strptime('01.10.2001',"%d.%m.%Y")
+            kuru_zamani_date2 = datetime.datetime.strptime('01.08.2001',"%d.%m.%Y")
             kuru_zamani_date3 = datetime.datetime.strptime('15.10.2001',"%d.%m.%Y")
             kuru_zamani1= datetime.datetime.timestamp(kuru_zamani_date1)
             kuru_zamani2= datetime.datetime.timestamp(kuru_zamani_date2)
@@ -94,7 +94,7 @@ class ContactBook():
             now = datetime.datetime.now().timestamp()      
             
             kuru_zamani_date1 = datetime.datetime.strptime('01.01.2001',"%d.%m.%Y")
-            kuru_zamani_date2 = datetime.datetime.strptime('01.10.2001',"%d.%m.%Y")
+            kuru_zamani_date2 = datetime.datetime.strptime('25.09.2001',"%d.%m.%Y")
             kuru_zamani_date3 = datetime.datetime.strptime('15.10.2001',"%d.%m.%Y")
             kuru_zamani1= datetime.datetime.timestamp(kuru_zamani_date1)
             kuru_zamani2= datetime.datetime.timestamp(kuru_zamani_date2)
@@ -108,7 +108,7 @@ class ContactBook():
             if (gebelik_suresi>kuru_zamani) and (gebelik_suresi<gebelik_limit):
                kuru_listesi.append(inek[0]) 
         
-        kuru_string = "Dogurmasina 10 gunden az kalan inekler: "
+        kuru_string = "Dogurmasina 15 gunden az kalan inekler: "
         
         for kulakNo in kuru_listesi:
             kuru_string +=  "\n" + kulakNo
@@ -116,7 +116,7 @@ class ContactBook():
         if not len(kuru_listesi)==0:    
             messagebox.showinfo('Inek Defteri',kuru_string)
         else:
-            messagebox.showinfo('Inek Defteri','Dogurmasina 10 gunden az kalan inek bulunmamaktadir.')
+            messagebox.showinfo('Inek Defteri','Dogurmasina 15 gunden az kalan inek bulunmamaktadir.')
         
         con.close()
     
@@ -149,7 +149,7 @@ class ContactBook():
         self.kuru_butonu.configure(font='Helvetica 12',bd=2, bg="white",relief="solid")
         self.kuru_butonu.pack(pady=5)
         
-        self.gebe_butonu = tk.Button(self.parent,text='Doguma 10 Kalanlar',command=self.gebelikDonemi)
+        self.gebe_butonu = tk.Button(self.parent,text='Doguma 15 Kalanlar',command=self.gebelikDonemi)
         self.gebe_butonu.configure(font='Helvetica 12',bd=2, bg="white",relief="solid")
         self.gebe_butonu.pack(pady=5)
         
