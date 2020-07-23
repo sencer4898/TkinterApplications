@@ -1,5 +1,3 @@
-# My Contact Book application modified for cattle owners
-
 import tkinter as tk
 import sqlite3
 from tkinter import messagebox
@@ -24,45 +22,7 @@ def createTable():
 
 createTable()
 
-def kuruDonemi():
-    con = sqlite3.connect('inek_defteri.db')
-    cursor = con.cursor()
-    
-    cursor.execute("SELECT * FROM inekler")
-    inek_listesi = cursor.fetchall()
-    
-    kuru_listesi=[]
-    
-    for inek in inek_listesi:
-        gebelik_tarihi = inek[2]
-        
-        date = datetime.datetime.strptime(gebelik_tarihi,"%d.%m.%Y")        
-        past=datetime.datetime.timestamp(date)
-        
-        now = datetime.datetime.now().timestamp()      
-        
-        kuru_zamani_date1 = datetime.datetime.strptime('01.01.2001',"%d.%m.%Y")
-        kuru_zamani_date2 = datetime.datetime.strptime('01.08.2001',"%d.%m.%Y")
-        kuru_zamani1= datetime.datetime.timestamp(kuru_zamani_date1)
-        kuru_zamani2= datetime.datetime.timestamp(kuru_zamani_date2)
-        kuru_zamani = kuru_zamani2-kuru_zamani1
-        
-        gebelik_suresi = now-past
-        
-        if(gebelik_suresi>kuru_zamani):
-           kuru_listesi.append(inek[0]) 
-    
-    kuru_string = "Kuruya Cikacak Inekler: "
-    
-    for kulakNo in kuru_listesi:
-        kuru_string +=  "\n" + kulakNo
-    
-    if not len(kuru_listesi)==0:    
-        messagebox.showinfo('Inek Defteri',kuru_string)
-    
-    con.close()
 
-kuruDonemi()
 
 class ContactBook():   
 
@@ -73,6 +33,93 @@ class ContactBook():
     def __init__ (self,parent):
         self.parent = parent
         
+    def kuruDonemi(self):
+        con = sqlite3.connect('inek_defteri.db')
+        cursor = con.cursor()
+        
+        cursor.execute("SELECT * FROM inekler")
+        inek_listesi = cursor.fetchall()
+        
+        kuru_listesi=[]
+        
+        for inek in inek_listesi:
+            gebelik_tarihi = inek[2]
+            
+            date = datetime.datetime.strptime(gebelik_tarihi,"%d.%m.%Y")        
+            past=datetime.datetime.timestamp(date)
+            
+            now = datetime.datetime.now().timestamp()      
+            
+            kuru_zamani_date1 = datetime.datetime.strptime('01.01.2001',"%d.%m.%Y")
+            kuru_zamani_date2 = datetime.datetime.strptime('01.10.2001',"%d.%m.%Y")
+            kuru_zamani_date3 = datetime.datetime.strptime('15.10.2001',"%d.%m.%Y")
+            kuru_zamani1= datetime.datetime.timestamp(kuru_zamani_date1)
+            kuru_zamani2= datetime.datetime.timestamp(kuru_zamani_date2)
+            kuru_zamani3= datetime.datetime.timestamp(kuru_zamani_date3)
+            kuru_zamani = kuru_zamani2 - kuru_zamani1
+            gebelik_limit=kuru_zamani3 - kuru_zamani1
+            
+            gebelik_suresi = now-past
+            
+            if (gebelik_suresi>kuru_zamani) and (gebelik_suresi<gebelik_limit):
+               kuru_listesi.append(inek[0]) 
+        
+        kuru_string = "Kuruya Cikacak Inekler: "
+        
+        for kulakNo in kuru_listesi:
+            kuru_string +=  "\n" + kulakNo
+        
+        if not len(kuru_listesi)==0:    
+            messagebox.showinfo('Inek Defteri',kuru_string)
+        else:
+            messagebox.showinfo('Inek Defteri','Kuruya cikmasi gereken inek bulunmamaktadir.')
+        
+        con.close()
+    
+    def gebelikDonemi(self):
+        con = sqlite3.connect('inek_defteri.db')
+        cursor = con.cursor()
+        
+        cursor.execute("SELECT * FROM inekler")
+        inek_listesi = cursor.fetchall()
+        
+        kuru_listesi=[]
+        
+        for inek in inek_listesi:
+            gebelik_tarihi = inek[2]
+            
+            date = datetime.datetime.strptime(gebelik_tarihi,"%d.%m.%Y")        
+            past=datetime.datetime.timestamp(date)
+            
+            now = datetime.datetime.now().timestamp()      
+            
+            kuru_zamani_date1 = datetime.datetime.strptime('01.01.2001',"%d.%m.%Y")
+            kuru_zamani_date2 = datetime.datetime.strptime('01.10.2001',"%d.%m.%Y")
+            kuru_zamani_date3 = datetime.datetime.strptime('15.10.2001',"%d.%m.%Y")
+            kuru_zamani1= datetime.datetime.timestamp(kuru_zamani_date1)
+            kuru_zamani2= datetime.datetime.timestamp(kuru_zamani_date2)
+            kuru_zamani3= datetime.datetime.timestamp(kuru_zamani_date3)
+            kuru_zamani = kuru_zamani2 - kuru_zamani1
+            gebelik_limit=kuru_zamani3 - kuru_zamani1
+            
+            gebelik_suresi = now-past
+            
+            
+            if (gebelik_suresi>kuru_zamani) and (gebelik_suresi<gebelik_limit):
+               kuru_listesi.append(inek[0]) 
+        
+        kuru_string = "Dogurmasina 10 gunden az kalan inekler: "
+        
+        for kulakNo in kuru_listesi:
+            kuru_string +=  "\n" + kulakNo
+        
+        if not len(kuru_listesi)==0:    
+            messagebox.showinfo('Inek Defteri',kuru_string)
+        else:
+            messagebox.showinfo('Inek Defteri','Dogurmasina 10 gunden az kalan inek bulunmamaktadir.')
+        
+        con.close()
+    
     def mainMenu(self):
         self.main_menu_title = tk.Label(self.parent,text="Inek Kayit Uygulamasi".upper())
         self.main_menu_title.configure(font='Helvetica 24 bold', bg="white")
@@ -100,11 +147,15 @@ class ContactBook():
 
         self.exit_button = tk.Button(self.parent,text="Cikis".upper(), command=self.parent.quit)
         self.exit_button.configure(font='Helvetica 12',bd=2, bg="white",relief="solid")
-        self.exit_button.pack(pady=30)
+        self.exit_button.pack(pady=15)
         
-        self.kuru_butonu = tk.Button(self.parent,text='Kuruya Cikacaklar',command=kuruDonemi)
+        self.kuru_butonu = tk.Button(self.parent,text='Kuruya Cikacaklar',command=self.kuruDonemi)
         self.kuru_butonu.configure(font='Helvetica 12',bd=2, bg="white",relief="solid")
-        self.kuru_butonu.pack(pady=30)
+        self.kuru_butonu.pack(pady=5)
+        
+        self.gebe_butonu = tk.Button(self.parent,text='Doguma 10 Kalanlar',command=self.gebelikDonemi)
+        self.gebe_butonu.configure(font='Helvetica 12',bd=2, bg="white",relief="solid")
+        self.gebe_butonu.pack(pady=5)
     
     def destroyMainMenu(self):
         self.main_menu_title.pack_forget()
@@ -115,6 +166,7 @@ class ContactBook():
         self.list_contacts_button.pack_forget()
         self.exit_button.pack_forget()
         self.kuru_butonu.pack_forget()
+        self.gebe_butonu.pack_forget()
 
     def add_main_menu(self):
         
@@ -506,8 +558,7 @@ class ContactBook():
         self.exit_button = tk.Button(self.parent,text="Cikis".upper(), command=self.parent.quit)
         self.exit_button.configure(font='Helvetica 12',bd=2, bg="white",relief="solid")
         self.exit_button.place(x=330,y=640)
-        
-        
+             
 
     def destroyUpdateMenu(self):
         self.update_menu_title.destroy()
@@ -543,6 +594,7 @@ class ContactBook():
         self.adress_entry.delete(0,'end')
         self.phone_entry.delete(0,'end')
         self.email_entry.delete(0,'end')
+        self.family_entry.delete(0,'end')
         
         
         con = sqlite3.connect('inek_defteri.db')
@@ -577,9 +629,9 @@ class ContactBook():
         cursor.execute('SELECT * FROM inekler WHERE kulakNo=?',(self.id,))
         self.found_contact = cursor.fetchall()
         if len(self.found_contact)>0:
-            cursor.execute('UPDATE inekler SET kulakNo=?, dogumTarihi=?, gebelikTarihi=?, hastaliklar=?, asilar=? WHERE oid=?',(self.name,self.adress,
+            cursor.execute('UPDATE inekler SET kulakNo=?, dogumTarihi=?, gebelikTarihi=?, hastaliklar=?, asilar=? WHERE kulakNo=?',(self.name,self.adress,
                                                                                              self.phone,self.email,
-                                                                                             self.family))
+                                                                                             self.family,self.id))
             messagebox.showinfo('Inek Defteri', 'Inek basariyla guncellendi!')
         else:
             messagebox.showerror('Inek Defteri','Gecersiz Kulak Numarasi!')
