@@ -143,11 +143,7 @@ class ContactBook():
 
         self.list_contacts_button = tk.Button(self.parent,text="Inekleri Listele".upper(),command=self.listMenu)
         self.list_contacts_button.configure(font='Helvetica 18',bd=2, bg="white",relief="solid",width=18)
-        self.list_contacts_button.pack(pady=15)
-
-        self.exit_button = tk.Button(self.parent,text="Cikis".upper(), command=self.parent.quit)
-        self.exit_button.configure(font='Helvetica 12',bd=2, bg="white",relief="solid")
-        self.exit_button.pack(pady=15)
+        self.list_contacts_button.pack(pady=15)      
         
         self.kuru_butonu = tk.Button(self.parent,text='Kuruya Cikacaklar',command=self.kuruDonemi)
         self.kuru_butonu.configure(font='Helvetica 12',bd=2, bg="white",relief="solid")
@@ -156,6 +152,10 @@ class ContactBook():
         self.gebe_butonu = tk.Button(self.parent,text='Doguma 10 Kalanlar',command=self.gebelikDonemi)
         self.gebe_butonu.configure(font='Helvetica 12',bd=2, bg="white",relief="solid")
         self.gebe_butonu.pack(pady=5)
+        
+        self.exit_button = tk.Button(self.parent,text="Cikis".upper(), command=self.parent.destroy)
+        self.exit_button.configure(font='Helvetica 12',bd=2, bg="white",relief="solid")
+        self.exit_button.pack(pady=15)
     
     def destroyMainMenu(self):
         self.main_menu_title.pack_forget()
